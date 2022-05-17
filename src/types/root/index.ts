@@ -7,5 +7,12 @@ export default {
                 name: 'nathan chica'
             });
         }
+    },
+    Mutation: {
+        updateAppAuthor: () => {
+            return createUser({
+                name: 'nathan chica'
+            });
+        }
     }
 };

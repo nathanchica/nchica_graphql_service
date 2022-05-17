@@ -1,18 +1,6 @@
 import { gql } from 'apollo-server';
 
 export default gql`
-    type EventRecord {
-        """
-        ID of this event record
-        """
-        id: ID!
-
-        """
-        Date time this event occurred in ISO string format
-        """
-        dateTimeISO: String!
-    }
-
     type LoggableEvent {
         """
         ID of this loggable event
@@ -25,9 +13,9 @@ export default gql`
         name: String!
 
         """
-        Records of this event
+        DateTime records in ISO string format of this event being logged
         """
-        records: [EventRecord!]!
+        dateTimeRecords: [String!]!
 
         """
         Whether or not this event is active
@@ -40,5 +28,29 @@ export default gql`
         Events that maintain its own records of when it was logged
         """
         loggableEvents: [LoggableEvent!]!
+    }
+
+    input CreateLoggableEventInput {
+        name: String!
+    }
+
+    input UpdateLoggableEventInput {
+        name: String
+        active: Boolean
+    }
+
+    type DeleteLoggableEventResponse {
+        id: ID!
+    }
+
+    input CreateEventRecordInput {
+        dateTimeISO: String!
+    }
+
+    extend type Mutation {
+        createLoggableEvent(input: CreateLoggableEventInput!): LoggableEvent!
+        updateLoggableEvent(id: ID!, input: UpdateLoggableEventInput!): LoggableEvent!
+        deleteLoggableEvent(id: ID!): DeleteLoggableEventResponse
+        createEventRecord(loggableEventId: ID!, input: CreateEventRecordInput!): LoggableEvent!
     }
 `;
