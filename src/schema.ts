@@ -1,10 +1,11 @@
-import { makeSchema } from 'nexus'
-import { join } from 'path'
+import { makeExecutableSchema } from 'graphql-tools';
 
-export const schema = makeSchema({
-  types: [],
-  outputs: {
-    schema: join(process.cwd(), "schema.graphql"),
-    typegen: join(process.cwd(), "nexus-typegen.ts"),
-  },
-})
+import resolvers from './types';
+import Root from './types/root/root.graphql';
+import LoggableEvent from './types/LoggableEvent/LoggableEvent.graphql';
+import User from './types/User/User.graphql';
+
+export default makeExecutableSchema({
+    typeDefs: [Root, LoggableEvent, User],
+    resolvers
+});
